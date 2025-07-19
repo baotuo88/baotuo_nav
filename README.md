@@ -256,8 +256,8 @@ npm run lint
 
 如果你有任何问题或建议，欢迎通过以下方式联系：
 
-- 提交 [Issue](https://github.com/your-username/baotuo_nav/issues)
-- 发起 [Discussion](https://github.com/your-username/baotuo_nav/discussions)
+- 提交 [Issue](https://github.com/your-username/baotuo88_nav/issues)
+- 发起 [Discussion](https://github.com/your-username/baotuo88_nav/discussions)
 
 ---
 

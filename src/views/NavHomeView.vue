@@ -148,7 +148,7 @@
           <footer class="page-footer" hidden="true">
             <div class="footer-content">
               <div class="footer-info">
-                <h3>{{ title || '猫猫导航' }}</h3>
+                <h3>{{ title || '宝拓科技导航' }}</h3>
                 <p>一个简洁、美观的导航网站，收录优质网站资源</p>
               </div>
 

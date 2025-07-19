@@ -86,7 +86,7 @@
 
 1. 访问 [GitHub Settings → Developer settings → Personal access tokens](https://github.com/settings/tokens)
 2. 点击 "Generate new token" → "Generate new token (fine-grained token)"
-3. 设置 Token 名称，选择过期时间，并**只选择你的 mao_nav 仓库**（这样即使 token 泄露也不会影响你其他项目）
+3. 设置 Token 名称，选择过期时间，并**只选择你的 baotuo_nav 仓库**（这样即使 token 泄露也不会影响你其他项目）
 4. 在 **Repository permissions (仓库权限)** 部分，勾选以下权限：
    - `Contents` - **Read and write** ✅  
      <span style="color:#888;font-size:13px;">用于读取和修改 <code>src/mock/mock_data.js</code> 文件，这是管理系统的核心功能</span>
@@ -140,7 +140,7 @@ npm run dev
 ### 项目结构
 
 ```
-mao_nav/
+baotuo_nav/
 ├── src/
 │   ├── apis/           # API 接口
 │   ├── assets/         # 静态资源（图片、样式等）
@@ -256,8 +256,8 @@ npm run lint
 
 如果你有任何问题或建议，欢迎通过以下方式联系：
 
-- 提交 [Issue](https://github.com/your-username/mao_nav/issues)
-- 发起 [Discussion](https://github.com/your-username/mao_nav/discussions)
+- 提交 [Issue](https://github.com/your-username/baotuo_nav/issues)
+- 发起 [Discussion](https://github.com/your-username/baotuo_nav/discussions)
 
 ---
 

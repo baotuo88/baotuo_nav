@@ -31,7 +31,7 @@
 2. 注册/登录 Cloudflare 账号（免费）
 3. 点击左侧菜单 **"Workers & Pages"**
 4. 点击 **"Create application"** → **"Pages"** → **"Connect to Git"**
-5. 授权 GitHub 并选择你 Fork 的 `mao_nav` 仓库
+5. 授权 GitHub 并选择你 Fork 的 `baotuo_nav` 仓库
 6. 配置构建设置：
    - **Framework preset**: `Vue`
    - **Build command**: `npm run build`
@@ -60,7 +60,7 @@
 1. 访问 [Vercel 官网](https://vercel.com/)
 2. 注册/登录 Vercel 账号（免费）
 3. 点击右上角 **"Add New"** → **"Project"**
-4. 选择你 Fork 的 `mao_nav` 仓库，点击 **"Import"**
+4. 选择你 Fork 的 `baotuo_nav` 仓库，点击 **"Import"**
 5. 保持默认设置，Vercel 会自动检测到是 Vue 项目
    - **Framework Preset**: `Vite`
    - **Build Command**: `npm run build`
@@ -121,8 +121,8 @@ VITE_GITHUB_BRANCH=your_github_branch_here
 
 1. **克隆项目**
 ```bash
-git clone https://github.com/your-username/mao_nav.git
-cd mao_nav
+git clone https://github.com/your-username/baotuo_nav.git
+cd baotuo_nav
 ```
 
 2. **安装依赖**

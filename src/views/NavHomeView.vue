@@ -5,7 +5,7 @@
       <!-- Logo区域 -->
       <div class="logo-section">
         <img src="/logo.png" alt="logo" class="logo" />
-        <h1 class="site-title">{{ title || '猫猫导航' }}</h1>
+        <h1 class="site-title">{{ title || '宝拓科技导航' }}</h1>
       </div>
 
       <!-- 分类导航 -->
@@ -27,7 +27,7 @@
       <!-- 左侧边栏底部信息 -->
       <div class="sidebar-footer">
         <a
-          href="https://github.com/maodeyu180/mao_nav"
+          href="https://github.com/baotuo88/baotuo_nav"
           target="_blank"
           rel="noopener noreferrer"
           class="github-link"
@@ -168,7 +168,7 @@
             </div>
 
             <div class="footer-bottom">
-              <p>&copy; {{ new Date().getFullYear() }} 猫猫导航 - 由 <a href="https://github.com/maodeyu180" target="_blank" rel="noopener noreferrer">maodeyu180</a> 用 ❤️ 制作</p>
+              <p>&copy; {{ new Date().getFullYear() }} 宝拓科技导航 - 由 <a href="https://github.com/baotuo88/baotuo_nav" target="_blank" rel="noopener noreferrer">maodeyu180</a> 用 ❤️ 制作</p>
               <p class="footer-tech">基于 Vue.js 构建 | <a href="https://github.com/maodeyu180/mao_nav" target="_blank" rel="noopener noreferrer">查看源代码</a></p>
             </div>
           </footer>
@@ -319,7 +319,7 @@ const scrollToCategoryMobile = (categoryId) => {
 
 // 打开GitHub项目页面
 const openGitHub = () => {
-  window.open('https://github.com/maodeyu180/mao_nav', '_blank')
+  window.open('https://github.com/baotuo88/baotuo_nav', '_blank')
 }
 
 // 组件挂载时获取数据

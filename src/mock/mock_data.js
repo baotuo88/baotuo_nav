@@ -122,9 +122,9 @@ export const mockData = {
         },
         {
           "id": "site-1752935701760",
-          "name": "VIP电影观看",
-          "url": "https://baotuo.dpdns.org/",
-          "description": "全网影视大全免费观看",
+          "name": "VIP电影",
+          "url": "https://tv.777828.xyz",
+          "description": "全网影视免费观看",
           "icon": "https://img.icons8.com/?size=100&id=bGv5vHhwLQi3&format=png&color=000000"
         }
       ]

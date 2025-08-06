@@ -448,6 +448,13 @@ export const mockData = {
           "url": "https://tinypng.com",
           "description": "图片压缩工具",
           "icon": "/sitelogo/tinypng.com.ico"
+        },
+        {
+          "id": "site-1754491589453",
+          "name": "CSDN会员文章",
+          "url": "https://cs.cuckooing.cn/",
+          "description": "下载csdn会员的文章",
+          "icon": "https://img.icons8.com/?size=100&id=G4i2I0oa8feo&format=png&color=000000"
         }
       ]
     },

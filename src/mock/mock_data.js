@@ -189,7 +189,7 @@ export const mockData = {
           "name": "Leaflow",
           "url": "https://leaflow.net/",
           "description": "云部署",
-          "icon": ""
+          "icon": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMzIuNTgiIGhlaWdodD0iMTI4IiB2aWV3Qm94PSIwIDAgNDY0IDQ0OCI+PHBhdGggZmlsbD0iIzY1YTMwZCIgZD0iTTEwMCAzNThoLTFoMjQ2cTQ5IDAgODMtMzQuNXQzNC04My41dC0zNC04My41dC04My0zNC41aC03cS04LTQxLTQwLTY4LjVUMjIzIDI2cS00OSAwLTgzLjUgMzQuNVQxMDUgMTQ0cTAgMSAuNSAyLjV0LjUgMi41aC0xcS00MyAwLTczIDMwLjVUMiAyNTRxMCA0MSAyOC41IDcxLjVUMTAwIDM1OCIvPjwvc3ZnPg=="
         }
       ]
     },

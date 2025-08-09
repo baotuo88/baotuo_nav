@@ -319,6 +319,13 @@ export const mockData = {
           "url": "https://www.adobe.com/products/xd.html",
           "description": "用户体验设计工具",
           "icon": "/sitelogo/www.adobe.com.ico"
+        },
+        {
+          "id": "site-1754703605224",
+          "name": "github p图片",
+          "url": "https://github.com/VectorSpaceLab/OmniGen2",
+          "description": "你丢给它一张图，它能看懂里面有什么东西、在干啥。",
+          "icon": ""
         }
       ]
     },

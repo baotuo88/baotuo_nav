@@ -324,8 +324,8 @@ export const mockData = {
           "id": "site-1754703605224",
           "name": "github p图片",
           "url": "https://github.com/VectorSpaceLab/OmniGen2",
-          "description": "你丢给它一张图，它能看懂里面有什么东西、在干啥。",
-          "icon": ""
+          "description": "在线使用地址https://genai.baai.ac.cn/",
+          "icon": "https://img.icons8.com/?size=100&id=2992&format=png&color=000000"
         }
       ]
     },

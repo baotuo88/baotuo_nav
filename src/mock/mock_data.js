@@ -514,6 +514,28 @@ export const mockData = {
           "icon": "/sitelogo/www.feishu.cn.ico"
         }
       ]
+    },
+    {
+      "id": "category-1755479177815",
+      "icon": "🔍",
+      "name": "资源站",
+      "order": 11,
+      "sites": [
+        {
+          "id": "site-1755479658097",
+          "name": "网盘资源",
+          "url": "https://xiongdipan.com/",
+          "description": "网盘资源查找下载",
+          "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"ai ai-Search\"><path d=\"M21 21l-4.486-4.494M19 10.5a8.5 8.5 0 1 1-17 0 8.5 8.5 0 0 1 17 0z\"/></svg>"
+        },
+        {
+          "id": "site-1755480596774",
+          "name": "学习资源",
+          "url": "https://www.xuebapan.com/",
+          "description": "学习资源查找",
+          "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"ai ai-Search\"><path d=\"M21 21l-4.486-4.494M19 10.5a8.5 8.5 0 1 1-17 0 8.5 8.5 0 0 1 17 0z\"/></svg>"
+        }
+      ]
     }
   ],
   "title": "宝拓科技导航"

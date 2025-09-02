@@ -578,6 +578,13 @@ export const mockData = {
           "url": "https://www.cleanpng.com/",
           "description": "动漫图",
           "icon": "https://icon2.kisspng.net/ki4/spt/c4japfqdyb1n.webp"
+        },
+        {
+          "id": "site-1756784356554",
+          "name": "中国大学校徽",
+          "url": "https://www.urongda.com/logos",
+          "description": "中国所有大学的学校图标大全",
+          "icon": "https://img.icons8.com/?size=100&id=RWH5eUW9Vr7f&format=png&color=000000"
         }
       ]
     }

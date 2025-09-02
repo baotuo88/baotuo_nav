@@ -571,6 +571,13 @@ export const mockData = {
           "url": "https://icons8.com/icons/",
           "description": "在线使用图标",
           "icon": "https://img.icons8.com/?size=100&id=1684&format=png&color=000000"
+        },
+        {
+          "id": "site-1756781282595",
+          "name": "动漫图",
+          "url": "https://www.cleanpng.com/",
+          "description": "动漫图",
+          "icon": "https://icon2.kisspng.net/ki4/spt/c4japfqdyb1n.webp"
         }
       ]
     }

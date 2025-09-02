@@ -48,6 +48,13 @@ export const mockData = {
           "url": "https://mail.ryanvan.com/",
           "description": "edu邮箱",
           "icon": "https://img.icons8.com/?size=100&id=ALTS4JWHjcpZ&format=png&color=000000"
+        },
+        {
+          "id": "site-1756775493383",
+          "name": "大学官网",
+          "url": "https://pu.edu.kg/",
+          "description": "我的大学官网",
+          "icon": "https://pu.edu.kg/_next/image?url=%2FSchool%20Emblem.png&w=48&q=75"
         }
       ]
     },

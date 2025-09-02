@@ -557,7 +557,15 @@ export const mockData = {
       "icon": "☁️",
       "name": "图片图标",
       "order": 13,
-      "sites": []
+      "sites": [
+        {
+          "id": "site-1756775280395",
+          "name": "faction.ico",
+          "url": "https://icons8.com/icons/",
+          "description": "在线使用图标",
+          "icon": "https://img.icons8.com/?size=100&id=1684&format=png&color=000000"
+        }
+      ]
     }
   ],
   "title": "宝拓科技导航"

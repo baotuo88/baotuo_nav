@@ -536,6 +536,21 @@ export const mockData = {
           "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"ai ai-Search\"><path d=\"M21 21l-4.486-4.494M19 10.5a8.5 8.5 0 1 1-17 0 8.5 8.5 0 0 1 17 0z\"/></svg>"
         }
       ]
+    },
+    {
+      "id": "category-1756773867171",
+      "icon": "💻",
+      "name": "我的大学",
+      "order": 0,
+      "sites": [
+        {
+          "id": "site-1756774584079",
+          "name": "大学邮箱",
+          "url": "https://mail.ryanvan.com/",
+          "description": "edu邮箱",
+          "icon": "https://img.icons8.com/?size=100&id=ALTS4JWHjcpZ&format=png&color=000000"
+        }
+      ]
     }
   ],
   "title": "宝拓科技导航"

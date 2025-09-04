@@ -225,7 +225,7 @@ export const mockData = {
           "name": "hugginface",
           "url": "https://huggingface.co/",
           "description": "免费云空间",
-          "icon": "/sitelogo/huggingface.co.ico"
+          "icon": "https://huggingface.co/front/assets/huggingface_logo-noborder.svg"
         }
       ]
     },
@@ -358,10 +358,10 @@ export const mockData = {
         },
         {
           "id": "site-1754703605224",
-          "name": "github p图片",
+          "name": "github p图",
           "url": "https://github.com/VectorSpaceLab/OmniGen2",
-          "description": "在线使用地址https://genai.baai.ac.cn/",
-          "icon": "https://img.icons8.com/?size=100&id=2992&format=png&color=000000"
+          "description": "地址https://genai.baai.ac.cn/",
+          "icon": "https://avatars.githubusercontent.com/u/180637102?s=48&v=4"
         }
       ]
     },

@@ -219,6 +219,13 @@ export const mockData = {
           "url": "https://huggingface.co/",
           "description": "免费云空间",
           "icon": ""
+        },
+        {
+          "id": "site-1756947188338",
+          "name": "Deno",
+          "url": "https://dash.deno.com/",
+          "description": "部署平台",
+          "icon": "https://dash.deno.com/assets/logo.svg"
         }
       ]
     },

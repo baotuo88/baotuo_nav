@@ -146,7 +146,7 @@ export const mockData = {
           "id": "site-1752936234207",
           "name": "AI大全",
           "url": "https://lmarena.ai/",
-          "description": "热点AI免费：chatgpt grok gemin等",
+          "description": "热点AI免费使用",
           "icon": "https://img.icons8.com/?size=100&id=59023&format=png&color=000000"
         }
       ]

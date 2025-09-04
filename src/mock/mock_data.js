@@ -225,7 +225,7 @@ export const mockData = {
           "name": "hugginface",
           "url": "https://huggingface.co/",
           "description": "免费云空间",
-          "icon": "https://huggingface.co/front/assets/huggingface_logo-noborder.svg"
+          "icon": "/sitelogo/huggingface.co.ico"
         }
       ]
     },

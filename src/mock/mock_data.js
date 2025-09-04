@@ -214,18 +214,18 @@ export const mockData = {
           "icon": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMzIuNTgiIGhlaWdodD0iMTI4IiB2aWV3Qm94PSIwIDAgNDY0IDQ0OCI+PHBhdGggZmlsbD0iIzY1YTMwZCIgZD0iTTEwMCAzNThoLTFoMjQ2cTQ5IDAgODMtMzQuNXQzNC04My41dC0zNC04My41dC04My0zNC41aC03cS04LTQxLTQwLTY4LjVUMjIzIDI2cS00OSAwLTgzLjUgMzQuNVQxMDUgMTQ0cTAgMSAuNSAyLjV0LjUgMi41aC0xcS00MyAwLTczIDMwLjVUMiAyNTRxMCA0MSAyOC41IDcxLjVUMTAwIDM1OCIvPjwvc3ZnPg=="
         },
         {
-          "id": "site-1754928463987",
-          "name": "hugginface",
-          "url": "https://huggingface.co/",
-          "description": "免费云空间",
-          "icon": ""
-        },
-        {
           "id": "site-1756947188338",
           "name": "Deno",
           "url": "https://dash.deno.com/",
           "description": "部署平台",
           "icon": "https://dash.deno.com/assets/logo.svg"
+        },
+        {
+          "id": "site-1754928463987",
+          "name": "hugginface",
+          "url": "https://huggingface.co/",
+          "description": "免费云空间",
+          "icon": "https://huggingface.co/front/assets/huggingface_logo-noborder.svg"
         }
       ]
     },

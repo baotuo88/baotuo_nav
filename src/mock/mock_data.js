@@ -98,6 +98,13 @@ export const mockData = {
           "url": "https://tv.777828.xyz",
           "description": "全网影视免费观看",
           "icon": "https://img.icons8.com/?size=100&id=bGv5vHhwLQi3&format=png&color=000000"
+        },
+        {
+          "id": "site-1757050807375",
+          "name": "傻瓜机-AI",
+          "url": "https://lingki.info",
+          "description": "Roleplay聊天",
+          "icon": ""
         }
       ]
     },

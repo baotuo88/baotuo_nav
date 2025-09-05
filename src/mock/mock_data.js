@@ -104,7 +104,7 @@ export const mockData = {
           "name": "傻瓜机-AI",
           "url": "https://lingki.info",
           "description": "Roleplay聊天",
-          "icon": ""
+          "icon": "https://img.icons8.com/?size=100&id=7859&format=png&color=000000"
         }
       ]
     },

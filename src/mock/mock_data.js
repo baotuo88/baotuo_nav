@@ -233,6 +233,13 @@ export const mockData = {
           "url": "https://huggingface.co/",
           "description": "免费云空间",
           "icon": "/sitelogo/huggingface.co.ico"
+        },
+        {
+          "id": "site-1757177091042",
+          "name": "leapcell",
+          "url": "https://leapcell.io/",
+          "description": "新一代容器",
+          "icon": "https://cdn.leapcellcdn.com/_next/static/media/logo.b0ae21dc.svg"
         }
       ]
     },

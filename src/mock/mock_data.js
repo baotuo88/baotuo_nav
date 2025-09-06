@@ -548,6 +548,13 @@ export const mockData = {
           "url": "https://www.feishu.cn",
           "description": "企业协作平台",
           "icon": "/sitelogo/www.feishu.cn.ico"
+        },
+        {
+          "id": "site-1757147587489",
+          "name": "superthread",
+          "url": "https://app.superthread.com/",
+          "description": "工作空间",
+          "icon": ""
         }
       ]
     },

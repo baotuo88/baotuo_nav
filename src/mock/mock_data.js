@@ -554,7 +554,7 @@ export const mockData = {
           "name": "superthread",
           "url": "https://app.superthread.com/",
           "description": "工作空间",
-          "icon": ""
+          "icon": "https://img.icons8.com/?size=100&id=mdhlgfHyFQ_C&format=png&color=000000"
         }
       ]
     },

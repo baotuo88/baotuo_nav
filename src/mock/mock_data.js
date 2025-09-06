@@ -33,13 +33,6 @@ export const mockData = {
           "url": "https://curlconverter.com/",
           "description": "curl命令转换工具",
           "icon": "/sitelogo/curlconverter.com.ico"
-        },
-        {
-          "id": "site-1757153964879",
-          "name": "gitee",
-          "url": "https://gitee.com/",
-          "description": "代码托管平台",
-          "icon": ""
         }
       ]
     },
@@ -290,6 +283,13 @@ export const mockData = {
           "url": "https://www.oracle.com/java/technologies/downloads/",
           "description": "Oracle官方Java下载",
           "icon": "/sitelogo/www.oracle.com.ico"
+        },
+        {
+          "id": "site-1757155242890",
+          "name": "gitee",
+          "url": "https://gitee.com/",
+          "description": "代码托管",
+          "icon": "https://img.icons8.com/?size=100&id=mdhlgfHyFQ_C&format=png&color=000000"
         }
       ]
     },

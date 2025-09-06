@@ -33,6 +33,13 @@ export const mockData = {
           "url": "https://curlconverter.com/",
           "description": "curl命令转换工具",
           "icon": "/sitelogo/curlconverter.com.ico"
+        },
+        {
+          "id": "site-1757153964879",
+          "name": "gitee",
+          "url": "https://gitee.com/",
+          "description": "代码托管平台",
+          "icon": ""
         }
       ]
     },

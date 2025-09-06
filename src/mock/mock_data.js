@@ -628,7 +628,15 @@ export const mockData = {
       "icon": "💻",
       "name": "在线数据库",
       "order": 14,
-      "sites": []
+      "sites": [
+        {
+          "id": "site-1757174746796",
+          "name": "upstash",
+          "url": "https://upstash.com/",
+          "description": "在线数据库",
+          "icon": ""
+        }
+      ]
     }
   ],
   "title": "宝拓科技导航"

@@ -650,7 +650,15 @@ export const mockData = {
       "icon": "👥",
       "name": "自建相关",
       "order": 15,
-      "sites": []
+      "sites": [
+        {
+          "id": "site-1757438695221",
+          "name": "elevenlabs",
+          "url": "https://elevenlabs.io/",
+          "description": "文字转语音",
+          "icon": "https://img.icons8.com/?size=100&id=JyVJOmkgQcg4&format=png&color=000000"
+        }
+      ]
     }
   ],
   "title": "宝拓科技导航"

@@ -644,6 +644,13 @@ export const mockData = {
           "icon": "https://img.icons8.com/?size=100&id=8305&format=png&color=000000"
         }
       ]
+    },
+    {
+      "id": "category-1757438561173",
+      "icon": "👥",
+      "name": "自建相关",
+      "order": 15,
+      "sites": []
     }
   ],
   "title": "宝拓科技导航"

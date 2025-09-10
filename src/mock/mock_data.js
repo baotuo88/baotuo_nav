@@ -657,6 +657,13 @@ export const mockData = {
           "url": "https://elevenlabs.io/",
           "description": "文字转语音",
           "icon": "https://img.icons8.com/?size=100&id=JyVJOmkgQcg4&format=png&color=000000"
+        },
+        {
+          "id": "site-1757512396911",
+          "name": "firebase",
+          "url": "https://console.firebase.google.com/",
+          "description": "数据库google firebase",
+          "icon": "https://www.gstatic.com/mobilesdk/240501_mobilesdk/firebase_28dp.png"
         }
       ]
     }

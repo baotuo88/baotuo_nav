@@ -240,6 +240,13 @@ export const mockData = {
           "url": "https://leapcell.io/",
           "description": "新一代容器",
           "icon": "https://cdn.leapcellcdn.com/_next/static/media/logo.b0ae21dc.svg"
+        },
+        {
+          "id": "site-1757560264352",
+          "name": "API",
+          "url": "https://shareyour.cc/dashboard",
+          "description": "api站点签到",
+          "icon": ""
         }
       ]
     },

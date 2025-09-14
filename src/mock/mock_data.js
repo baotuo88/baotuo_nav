@@ -649,6 +649,13 @@ export const mockData = {
           "url": "https://upstash.com/",
           "description": "在线数据库",
           "icon": "https://img.icons8.com/?size=100&id=8305&format=png&color=000000"
+        },
+        {
+          "id": "site-1757865654189",
+          "name": "gminikey",
+          "url": "https://geminikeyseeker.o0o.moe/",
+          "description": "在线获取geminikey",
+          "icon": ""
         }
       ]
     },

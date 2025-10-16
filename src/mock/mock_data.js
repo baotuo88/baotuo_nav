@@ -605,6 +605,13 @@ export const mockData = {
           "url": "https://www.xuebapan.com/",
           "description": "学习资源查找",
           "icon": "https://img.icons8.com/?size=100&id=vaQUFtPEp5nj&format=png&color=000000"
+        },
+        {
+          "id": "site-1760574934145",
+          "name": "apple id share",
+          "url": "https://id.jincaii.com/",
+          "description": "共享",
+          "icon": "https://img.icons8.com/?size=100&id=WUbpOIDjs4KP&format=png&color=000000"
         }
       ]
     },

@@ -242,11 +242,11 @@ export const mockData = {
           "icon": "https://cdn.leapcellcdn.com/_next/static/media/logo.b0ae21dc.svg"
         },
         {
-          "id": "site-1757560264352",
-          "name": "API",
-          "url": "https://shareyour.cc/dashboard",
-          "description": "api站点签到",
-          "icon": ""
+          "id": "site-1763902368024",
+          "name": "Zeabur",
+          "url": "https://zeabur.com/",
+          "description": "云部署",
+          "icon": "https://img.icons8.com/?size=100&id=alhQiadIikAg&format=png&color=000000"
         }
       ]
     },

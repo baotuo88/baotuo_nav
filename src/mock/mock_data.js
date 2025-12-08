@@ -354,6 +354,13 @@ export const mockData = {
           "url": "https://idcflare.com/",
           "description": "社区",
           "icon": "https://idcflare.com/uploads/default/original/1X/a0dbb54665cc3e8e18fd6cf1e7a8e43049d8b330.png"
+        },
+        {
+          "id": "site-1765193424381",
+          "name": "nodeloc",
+          "url": "https://www.nodeloc.com/",
+          "description": "论坛",
+          "icon": "\thttps://s.rmimg.com/original/2X/a/a4f25429f7ad6bdc67647367a0e9fa033d0b980d.svg"
         }
       ]
     },

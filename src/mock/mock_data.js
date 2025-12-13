@@ -721,7 +721,15 @@ export const mockData = {
       "icon": "📱",
       "name": "免费域名主机",
       "order": 17,
-      "sites": []
+      "sites": [
+        {
+          "id": "site-1765588369559",
+          "name": "ICMP9虚拟主机",
+          "url": "https://icmp9.com/",
+          "description": "签到保活虚拟主机",
+          "icon": "https://img.icons8.com/?size=100&id=OfKXlxB4IrZ1&format=png&color=000000"
+        }
+      ]
     }
   ],
   "title": "宝拓科技导航"

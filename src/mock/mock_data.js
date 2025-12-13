@@ -728,6 +728,13 @@ export const mockData = {
           "url": "https://icmp9.com/",
           "description": "签到保活虚拟主机",
           "icon": "https://img.icons8.com/?size=100&id=OfKXlxB4IrZ1&format=png&color=000000"
+        },
+        {
+          "id": "site-1765589488075",
+          "name": "二级域名",
+          "url": "https://my.dnshe.com/index.php?m=domain_hub",
+          "description": "免费申请域名",
+          "icon": "https://img.icons8.com/?size=100&id=VhllgfFJA9AH&format=png&color=000000"
         }
       ]
     }

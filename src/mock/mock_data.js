@@ -715,6 +715,13 @@ export const mockData = {
           "icon": ""
         }
       ]
+    },
+    {
+      "id": "category-1765588109194",
+      "icon": "📱",
+      "name": "免费域名主机",
+      "order": 17,
+      "sites": []
     }
   ],
   "title": "宝拓科技导航"

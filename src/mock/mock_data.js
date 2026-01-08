@@ -33,6 +33,13 @@ export const mockData = {
           "url": "https://curlconverter.com/",
           "description": "curl命令转换工具",
           "icon": "/sitelogo/curlconverter.com.ico"
+        },
+        {
+          "id": "site-1767843977730",
+          "name": "api公益站",
+          "url": "https://ldoh.105117.xyz",
+          "description": "api签到公益站合集",
+          "icon": ""
         }
       ]
     },

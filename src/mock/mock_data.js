@@ -39,7 +39,7 @@ export const mockData = {
           "name": "api公益站",
           "url": "https://ldoh.105117.xyz",
           "description": "api签到公益站合集",
-          "icon": ""
+          "icon": "https://img.icons8.com/?size=100&id=79865&format=png&color=000000"
         }
       ]
     },

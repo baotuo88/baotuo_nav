@@ -633,6 +633,13 @@ export const mockData = {
           "url": "https://routerpark.com/",
           "description": "免费apikey",
           "icon": "https://routerpark.com/_next/image?url=%2Ficon.svg&w=64&q=75"
+        },
+        {
+          "id": "site-1767870558758",
+          "name": "SheerID 验证系统",
+          "url": "https://dabing.71free.icu/",
+          "description": "gpt、gemini等认证",
+          "icon": "https://img.icons8.com/?size=100&id=8759&format=png&color=000000"
         }
       ]
     },

@@ -40,6 +40,13 @@ export const mockData = {
           "url": "https://ldoh.105117.xyz",
           "description": "api签到公益站合集",
           "icon": "https://img.icons8.com/?size=100&id=79865&format=png&color=000000"
+        },
+        {
+          "id": "site-1770463210548",
+          "name": "Aws2Kiro",
+          "url": "https://aws2kiro.7786.cc.cd/",
+          "description": "",
+          "icon": ""
         }
       ]
     },

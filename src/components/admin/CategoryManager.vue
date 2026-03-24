@@ -1,13 +1,19 @@
 <template>
   <div class="category-manager">
     <div class="manager-header">
-      <h2>📁 分类管理</h2>
+      <div class="manager-copy">
+        <span class="manager-kicker">Structure</span>
+        <div>
+          <h2>分类管理</h2>
+          <p>维护导航分区、排序顺序与展示入口，点击卡片可直接切到对应站点列表。</p>
+        </div>
+      </div>
       <div class="header-actions">
         <button @click="showAddModal = true" class="add-btn">
-          ➕ 添加分类
+          添加分类
         </button>
         <button @click="$emit('save')" :disabled="loading" class="save-btn">
-          {{ loading ? '保存中...' : '💾 保存到GitHub' }}
+          {{ loading ? '保存中...' : '保存到 GitHub' }}
         </button>
       </div>
     </div>
@@ -20,46 +26,67 @@
         class="category-item clickable"
         @click="$emit('viewSites', category.id)"
       >
-        <div class="category-header">
-          <div class="category-info">
-            <span class="category-icon" @click.stop="editCategory(category)">
-              {{ category.icon }}
-            </span>
-            <div class="category-details">
-              <h3 @click.stop="editCategory(category)">{{ category.name }}</h3>
-              <p>{{ category.sites?.length || 0 }} 个站点 → 点击查看站点管理</p>
+        <div class="category-main">
+          <div class="category-meta">
+            <div class="category-header">
+              <div class="category-info">
+                <button type="button" class="category-icon" @click.stop="editCategory(category)">
+                  {{ category.icon }}
+                </button>
+                <div class="category-details">
+                  <div class="category-title-row">
+                    <h3 @click.stop="editCategory(category)">{{ category.name }}</h3>
+                    <span class="order-badge">#{{ formatOrder((category.order ?? 0) + 1) }}</span>
+                  </div>
+                  <p>{{ category.sites?.length || 0 }} 个站点，可点击切换到站点管理继续维护入口内容</p>
+                </div>
+              </div>
+              <button type="button" class="view-sites-btn" @click.stop="$emit('viewSites', category.id)">
+                查看站点
+              </button>
+            </div>
+            <div class="category-actions">
+              <button @click.stop="moveCategory(index, -1)" :disabled="index === 0" class="move-btn">
+                上移
+              </button>
+              <button @click.stop="moveCategory(index, 1)" :disabled="index === localCategories.length - 1" class="move-btn">
+                下移
+              </button>
+              <button @click.stop="editCategory(category)" class="edit-btn">
+                编辑
+              </button>
+              <button @click.stop="deleteCategory(category.id)" class="delete-btn">
+                删除
+              </button>
             </div>
           </div>
-          <div class="category-actions">
-            <span class="order-badge">排序: {{ category.order }}</span>
-            <button @click.stop="moveCategory(index, -1)" :disabled="index === 0" class="move-btn">
-              ⬆️
-            </button>
-            <button @click.stop="moveCategory(index, 1)" :disabled="index === localCategories.length - 1" class="move-btn">
-              ⬇️
-            </button>
-            <button @click.stop="editCategory(category)" class="edit-btn">
-              ✏️ 编辑
-            </button>
-            <button @click.stop="deleteCategory(category.id)" class="delete-btn">
-              🗑️ 删除
-            </button>
-          </div>
-        </div>
 
-        <!-- 站点预览 -->
-        <div class="sites-preview" v-if="category.sites && category.sites.length > 0">
-          <div class="sites-grid">
-            <div
-              v-for="site in category.sites.slice(0, 6)"
-              :key="site.id"
-              class="site-preview"
-            >
-              <img :src="site.icon" :alt="site.name" @error="handleImageError">
-              <span>{{ site.name }}</span>
+          <div class="sites-preview" :class="{ 'empty-preview': !category.sites || category.sites.length === 0 }">
+            <div class="preview-header">
+              <div>
+                <span class="preview-kicker">Preview</span>
+                <h4 class="preview-title">站点预览</h4>
+              </div>
+              <span class="preview-count">{{ category.sites?.length || 0 }} Sites</span>
             </div>
-            <div v-if="category.sites.length > 6" class="more-sites">
-              +{{ category.sites.length - 6 }} 更多
+
+            <div v-if="category.sites && category.sites.length > 0" class="sites-grid">
+              <div
+                v-for="site in category.sites.slice(0, 4)"
+                :key="site.id"
+                class="site-preview"
+              >
+                <img :src="site.icon" :alt="site.name" @error="handleImageError">
+                <span>{{ site.name }}</span>
+              </div>
+              <div v-if="category.sites.length > 4" class="more-sites">
+                +{{ category.sites.length - 4 }} 更多入口
+              </div>
+            </div>
+
+            <div v-else class="empty-state">
+              <span class="empty-icon">＋</span>
+              <p>该分类还没有站点，点击右侧按钮即可继续添加。</p>
             </div>
           </div>
         </div>
@@ -165,9 +192,17 @@ const emojiSuggestions = [
   '☁️', '🔧', '📊', '🎵', '📱', '💻', '🌐', '🔍'
 ]
 
+const sortCategories = (categories) => {
+  return [...categories].sort((current, next) => (current.order ?? 0) - (next.order ?? 0))
+}
+
+const formatOrder = (value) => {
+  return String(value).padStart(2, '0')
+}
+
 // 监听props变化
 watch(() => props.categories, (newCategories) => {
-  localCategories.value = JSON.parse(JSON.stringify(newCategories))
+  localCategories.value = sortCategories(JSON.parse(JSON.stringify(newCategories)))
 }, { immediate: true, deep: true })
 
 // 手动同步到父组件的函数，避免无限循环
@@ -232,6 +267,7 @@ const saveCategory = () => {
     localCategories.value.push(newCategory)
   }
 
+  localCategories.value = sortCategories(localCategories.value)
   syncToParent()
   closeModal()
 }
@@ -257,22 +293,39 @@ const handleImageError = (event) => {
 
 <style scoped>
 .category-manager {
-  padding: 20px 0;
-}
-
-.manager-header {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 30px;
-  padding-bottom: 20px;
-  border-bottom: 2px solid #e9ecef;
+  flex-direction: column;
+  gap: 28px;
 }
 
-.manager-header h2 {
-  color: #2c3e50;
-  margin: 0;
-  font-size: 24px;
+.manager-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 620px;
+}
+
+.manager-kicker {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  min-height: 30px;
+  padding: 0 12px;
+  border-radius: 999px;
+  background: rgba(var(--admin-accent-rgb), 0.1);
+  border: 1px solid rgba(var(--admin-accent-rgb), 0.14);
+  color: var(--admin-accent-strong);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.manager-copy p {
+  margin: 8px 0 0;
+  color: var(--admin-text-soft);
+  font-size: 14px;
+  line-height: 1.7;
 }
 
 .header-actions {
@@ -280,50 +333,20 @@ const handleImageError = (event) => {
   gap: 15px;
 }
 
-.add-btn, .save-btn {
-  padding: 10px 20px;
-  border: none;
-  border-radius: 6px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.add-btn {
-  background: #27ae60;
-  color: white;
-}
-
-.add-btn:hover {
-  background: #219a52;
-}
-
-.save-btn {
-  background: #3498db;
-  color: white;
-}
-
-.save-btn:hover:not(:disabled) {
-  background: #2980b9;
-}
-
-.save-btn:disabled {
-  background: #bdc3c7;
-  cursor: not-allowed;
-}
-
 .categories-list {
-  display: flex;
-  flex-direction: column;
+  display: grid;
   gap: 20px;
 }
 
 .category-item {
-  background: #f8f9fa;
-  border-radius: 8px;
-  padding: 20px;
-  border: 1px solid #e9ecef;
-  transition: all 0.3s ease;
+  border: 1px solid var(--admin-line);
+  border-radius: 30px;
+  padding: 24px;
+  background:
+    radial-gradient(circle at top right, rgba(var(--admin-accent-rgb), 0.1), transparent 26%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.76), rgba(250, 245, 236, 0.94));
+  box-shadow: 0 20px 36px rgba(16, 38, 58, 0.06);
+  transition: transform 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
 }
 
 .category-item.clickable {
@@ -331,153 +354,276 @@ const handleImageError = (event) => {
 }
 
 .category-item.clickable:hover {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  background: #f1f3f4;
-  border-color: #3498db;
+  transform: translateY(-3px);
+  box-shadow: 0 28px 44px rgba(16, 38, 58, 0.1);
+  border-color: rgba(var(--admin-accent-rgb), 0.2);
+}
+
+.category-main {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.92fr);
+  gap: 24px;
+  align-items: stretch;
+}
+
+.category-meta {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 18px;
 }
 
 .category-header {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  margin-bottom: 15px;
+  align-items: flex-start;
+  gap: 16px;
 }
 
 .category-info {
   display: flex;
-  align-items: center;
-  gap: 15px;
+  align-items: flex-start;
+  gap: 16px;
+  min-width: 0;
 }
 
 .category-icon {
-  font-size: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 78px;
+  height: 78px;
+  flex-shrink: 0;
+  padding: 0;
+  border: 1px solid rgba(var(--admin-accent-rgb), 0.12);
+  border-radius: 24px;
+  background: linear-gradient(180deg, rgba(255, 249, 238, 0.98), rgba(245, 238, 225, 0.92));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.78);
+  font-size: 34px;
   cursor: pointer;
-  padding: 5px;
-  border-radius: 4px;
-  transition: background-color 0.3s ease;
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .category-icon:hover {
-  background: rgba(52, 152, 219, 0.1);
+  transform: translateY(-2px);
+  border-color: rgba(var(--admin-accent-rgb), 0.24);
+  box-shadow: 0 14px 24px rgba(16, 38, 58, 0.1);
+}
+
+.category-details {
+  min-width: 0;
+}
+
+.category-title-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
 }
 
 .category-details h3 {
-  margin: 0 0 5px 0;
-  color: #2c3e50;
+  margin: 0;
+  color: var(--admin-text);
   cursor: pointer;
-  transition: color 0.3s ease;
+  font-size: 28px;
+  line-height: 1.12;
+  transition: color 0.2s ease;
 }
 
 .category-details h3:hover {
-  color: #3498db;
+  color: var(--admin-accent-strong);
 }
 
 .category-details p {
-  margin: 0;
-  color: #7f8c8d;
+  margin: 12px 0 0;
+  color: var(--admin-text-soft);
   font-size: 14px;
+  line-height: 1.75;
 }
 
 .category-actions {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 10px;
 }
 
 .order-badge {
-  background: #3498db;
-  color: white;
-  padding: 4px 8px;
-  border-radius: 12px;
+  display: inline-flex;
+  align-items: center;
+  min-height: 34px;
+  padding: 0 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(var(--admin-accent-rgb), 0.14);
+  background: rgba(var(--admin-accent-rgb), 0.08);
+  color: var(--admin-accent-strong);
   font-size: 12px;
-  font-weight: 500;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
-.move-btn, .edit-btn, .delete-btn {
-  padding: 6px 12px;
-  border: none;
-  border-radius: 4px;
+.view-sites-btn {
+  min-height: 42px;
+  padding: 0 16px;
+  border: 1px solid rgba(24, 52, 73, 0.12);
+  border-radius: 14px;
+  background: rgba(24, 52, 73, 0.96);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  white-space: nowrap;
   cursor: pointer;
-  font-size: 12px;
-  transition: all 0.3s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.move-btn {
-  background: #95a5a6;
-  color: white;
-}
-
-.move-btn:hover:not(:disabled) {
-  background: #7f8c8d;
-}
-
-.move-btn:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-.edit-btn {
-  background: #f39c12;
-  color: white;
-}
-
-.edit-btn:hover {
-  background: #e67e22;
-}
-
-.delete-btn {
-  background: #e74c3c;
-  color: white;
-}
-
-.delete-btn:hover {
-  background: #c0392b;
+.view-sites-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 14px 24px rgba(24, 52, 73, 0.16);
 }
 
 .sites-preview {
-  margin-top: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 16px;
+  min-height: 100%;
+  padding: 18px;
+  border: 1px solid rgba(16, 38, 58, 0.08);
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.72);
+}
+
+.preview-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.preview-kicker {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+  padding: 0 10px;
+  border-radius: 999px;
+  background: rgba(var(--admin-accent-rgb), 0.08);
+  color: var(--admin-accent-strong);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.preview-title {
+  margin: 8px 0 0;
+  color: var(--admin-text);
+  font-size: 18px;
+}
+
+.preview-count {
+  display: inline-flex;
+  align-items: center;
+  min-height: 34px;
+  padding: 0 12px;
+  border-radius: 999px;
+  background: rgba(24, 52, 73, 0.08);
+  color: var(--admin-slate);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 .sites-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-  gap: 10px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
 }
 
 .site-preview {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  padding: 10px;
-  background: white;
-  border-radius: 6px;
-  border: 1px solid #e9ecef;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 10px;
+  min-height: 108px;
+  padding: 14px;
+  border-radius: 18px;
+  border: 1px solid rgba(16, 38, 58, 0.08);
+  background: rgba(255, 255, 255, 0.9);
 }
 
 .site-preview img {
-  width: 24px;
-  height: 24px;
-  margin-bottom: 5px;
+  width: 40px;
+  height: 40px;
   object-fit: contain;
+  border-radius: 14px;
+  background: rgba(255, 252, 247, 0.96);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.72);
 }
 
 .site-preview span {
-  font-size: 12px;
-  color: #7f8c8d;
-  text-align: center;
-  line-height: 1.2;
+  display: -webkit-box;
+  overflow: hidden;
+  color: var(--admin-text);
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.45;
+  text-align: left;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
 }
 
 .more-sites {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 10px;
-  background: #ecf0f1;
-  border-radius: 6px;
-  color: #7f8c8d;
-  font-size: 12px;
-  font-weight: 500;
+  min-height: 108px;
+  padding: 14px;
+  border-radius: 18px;
+  border: 1px dashed rgba(var(--admin-accent-rgb), 0.22);
+  background: rgba(var(--admin-accent-rgb), 0.08);
+  color: var(--admin-accent-strong);
+  font-size: 13px;
+  font-weight: 800;
+  text-align: center;
+}
+
+.empty-preview {
+  justify-content: center;
+}
+
+.empty-state {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  min-height: 132px;
+  padding: 18px;
+  border: 1px dashed rgba(var(--admin-accent-rgb), 0.2);
+  border-radius: 20px;
+  background: rgba(var(--admin-accent-rgb), 0.06);
+}
+
+.empty-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  flex-shrink: 0;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.86);
+  color: var(--admin-accent-strong);
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.empty-state p {
+  margin: 0;
+  color: var(--admin-text-soft);
+  font-size: 14px;
+  line-height: 1.7;
 }
 
 /* 弹窗样式 */
@@ -495,9 +641,7 @@ const handleImageError = (event) => {
 }
 
 .modal-content {
-  background: white;
-  border-radius: 8px;
-  width: 90%;
+  width: min(520px, calc(100% - 32px));
   max-width: 500px;
   max-height: 90vh;
   overflow-y: auto;
@@ -513,7 +657,7 @@ const handleImageError = (event) => {
 
 .modal-header h3 {
   margin: 0;
-  color: #2c3e50;
+  color: var(--admin-text);
 }
 
 .close-btn {
@@ -542,22 +686,14 @@ const handleImageError = (event) => {
 .form-group label {
   display: block;
   margin-bottom: 8px;
-  color: #555;
-  font-weight: 500;
+  color: var(--admin-text);
+  font-weight: 700;
 }
 
 .form-input {
   width: 100%;
   padding: 10px;
-  border: 2px solid #e1e1e1;
-  border-radius: 4px;
   font-size: 14px;
-  transition: border-color 0.3s ease;
-}
-
-.form-input:focus {
-  outline: none;
-  border-color: #3498db;
 }
 
 .icon-input {
@@ -572,11 +708,11 @@ const handleImageError = (event) => {
 .emoji-suggestions {
   display: grid;
   grid-template-columns: repeat(8, 1fr);
-  gap: 5px;
+  gap: 8px;
   margin-top: 10px;
-  padding: 10px;
-  background: #f8f9fa;
-  border-radius: 4px;
+  padding: 12px;
+  background: rgba(16, 38, 58, 0.04);
+  border-radius: 18px;
 }
 
 .emoji-item {
@@ -586,12 +722,13 @@ const handleImageError = (event) => {
   width: 30px;
   height: 30px;
   cursor: pointer;
-  border-radius: 4px;
-  transition: background-color 0.3s ease;
+  border-radius: 10px;
+  transition: transform 0.2s ease, background-color 0.2s ease;
 }
 
 .emoji-item:hover {
-  background: #3498db;
+  transform: translateY(-1px);
+  background: rgba(var(--admin-accent-rgb), 0.12);
 }
 
 .form-actions {
@@ -600,50 +737,51 @@ const handleImageError = (event) => {
   gap: 10px;
   margin-top: 30px;
   padding-top: 20px;
-  border-top: 1px solid #e9ecef;
-}
-
-.cancel-btn, .submit-btn {
-  padding: 10px 20px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-weight: 500;
-  transition: background-color 0.3s ease;
-}
-
-.cancel-btn {
-  background: #95a5a6;
-  color: white;
-}
-
-.cancel-btn:hover {
-  background: #7f8c8d;
-}
-
-.submit-btn {
-  background: #27ae60;
-  color: white;
-}
-
-.submit-btn:hover {
-  background: #219a52;
+  border-top: 1px solid rgba(16, 38, 58, 0.08);
 }
 
 /* 响应式设计 */
+@media (max-width: 1100px) {
+  .category-main {
+    grid-template-columns: 1fr;
+  }
+}
+
 @media (max-width: 768px) {
+  .manager-copy {
+    max-width: none;
+  }
+
   .category-header {
     flex-direction: column;
     align-items: flex-start;
-    gap: 15px;
+    gap: 16px;
   }
 
   .category-actions {
     flex-wrap: wrap;
   }
 
+  .view-sites-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
   .sites-grid {
-    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    grid-template-columns: 1fr;
+  }
+
+  .category-details h3 {
+    font-size: 24px;
+  }
+
+  .category-item {
+    padding: 20px;
+    border-radius: 24px;
+  }
+
+  .emoji-suggestions {
+    grid-template-columns: repeat(6, 1fr);
   }
 }
 </style>

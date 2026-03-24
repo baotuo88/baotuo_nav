@@ -547,8 +547,9 @@ async function githubFetch(path, config, init = {}) {
       ...init,
       headers: {
         'Authorization': `Bearer ${config.githubToken}`,
-        'Accept': 'application/vnd.github.v3+json',
+        'Accept': 'application/vnd.github+json',
         'X-GitHub-Api-Version': '2022-11-28',
+        'User-Agent': 'baotuo_nav',
         ...(init.body ? { 'Content-Type': 'application/json' } : {}),
         ...(init.headers || {})
       },
@@ -557,14 +558,18 @@ async function githubFetch(path, config, init = {}) {
 
     if (!response.ok) {
       let message = `GitHub 请求失败 (${response.status})`
+      const responseText = await response.clone().text()
 
       try {
-        const errorData = await response.clone().json()
+        const errorData = responseText ? JSON.parse(responseText) : null
         if (errorData?.message) {
           message = `GitHub API Error: ${errorData.message}`
         }
-      } catch {
-        // ignore JSON parse failure
+      } catch (parseError) {
+        void parseError
+        if (responseText.trim()) {
+          message = `GitHub 响应异常 (${response.status}): ${responseText.trim().slice(0, 240)}`
+        }
       }
 
       throw new ApiError(message, 'GITHUB_REQUEST_FAILED', response.status)

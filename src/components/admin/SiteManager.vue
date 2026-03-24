@@ -1,7 +1,13 @@
 <template>
   <div class="site-manager">
     <div class="manager-header">
-      <h2>🌐 站点管理</h2>
+      <div class="manager-copy">
+        <span class="manager-kicker">Entries</span>
+        <div>
+          <h2>站点管理</h2>
+          <p>维护每个分类下的站点入口、图标资源与排序顺序，选中分类后可直接拖拽重排。</p>
+        </div>
+      </div>
       <div class="header-actions">
         <select v-model="selectedCategoryId" class="category-filter">
           <option value="">所有分类</option>
@@ -10,10 +16,10 @@
           </option>
         </select>
         <button @click="openAddModal" class="add-btn">
-          ➕ 添加站点
+          添加站点
         </button>
         <button @click="handleSave" :disabled="loading" class="save-btn">
-          {{ loading ? '保存中...' : '💾 保存到GitHub' }}
+          {{ loading ? '保存中...' : '保存到 GitHub' }}
         </button>
       </div>
     </div>
@@ -33,7 +39,13 @@
         <span class="stat-label">当前显示</span>
       </div>
       <div class="stat-info">
-        💡 提示：选择分类后可拖拽排序，拖到页面边缘会自动滚动
+        <span class="stat-info-kicker">Workflow</span>
+        <p v-if="selectedCategoryId">
+          当前已选中 <strong>{{ selectedCategoryLabel }}</strong>，拖拽排序已启用，保存后会同步写回 GitHub。
+        </p>
+        <p v-else>
+          当前显示全部分类。先选择一个具体分类，再启用拖拽排序和精细维护。
+        </p>
       </div>
     </div>
 
@@ -61,22 +73,25 @@
                 <img :src="getIconDisplayUrl(site.icon)" :alt="site.name" @error="handleImageError">
               </div>
               <div class="site-details">
+                <div class="site-topline">
+                  <span class="site-category">
+                    {{ getCategoryName(site.categoryId) }}
+                  </span>
+                  <span v-if="selectedCategoryId" class="site-order-chip">可拖拽排序</span>
+                </div>
                 <h3>{{ site.name }}</h3>
-                <p class="site-description">{{ site.description }}</p>
+                <p class="site-description">{{ site.description || '未填写站点简介' }}</p>
                 <a :href="site.url" target="_blank" rel="noopener noreferrer" class="site-url">
                   {{ site.url }}
                 </a>
-                <span class="site-category">
-                  {{ getCategoryName(site.categoryId) }}
-                </span>
               </div>
             </div>
             <div class="site-actions">
               <button @click="editSite(site)" class="edit-btn">
-                ✏️ 编辑
+                编辑
               </button>
               <button @click="deleteSite(site)" class="delete-btn">
-                🗑️ 删除
+                删除
               </button>
             </div>
           </div>
@@ -85,12 +100,12 @@
 
       <!-- 提示 -->
       <div v-if="!selectedCategoryId" class="pagination-notice">
-        💡 请选择具体分类以启用拖拽排序功能
+        请选择具体分类以启用拖拽排序功能
       </div>
 
       <!-- 拖拽帮助 -->
       <div v-if="selectedCategoryId && filteredSites.length > 5" class="drag-help">
-        🖱️ 拖拽到页面顶部或底部边缘可自动滚动
+        拖拽到页面顶部或底部边缘时会自动滚动，便于长列表重排
       </div>
     </div>
 
@@ -103,7 +118,7 @@
           <h3>
             {{ editingSite ? '编辑站点' : '添加站点' }}
             <span v-if="!editingSite && formData.categoryId" class="category-hint">
-              → {{ getCategoryName(formData.categoryId) }}
+              {{ getCategoryName(formData.categoryId) }}
             </span>
           </h3>
           <button @click="closeModal" class="close-btn">✕</button>
@@ -162,7 +177,7 @@
                 class="form-input"
               >
               <button type="button" @click="autoDetectIcon" class="auto-icon-btn">
-                🔍 自动获取
+                自动获取图标
               </button>
             </div>
             <div class="icon-preview" v-if="formData.icon">
@@ -273,6 +288,15 @@ const filteredSites = computed(() => {
     return allSites.value
   }
   return allSites.value.filter(site => site.categoryId === selectedCategoryId.value)
+})
+
+const selectedCategoryLabel = computed(() => {
+  if (!selectedCategoryId.value) {
+    return '全部分类'
+  }
+
+  const category = localCategories.value.find((item) => item.id === selectedCategoryId.value)
+  return category ? `${category.icon} ${category.name}` : '未分类'
 })
 
 // 当前显示的站点（用于拖拽排序）
@@ -853,359 +877,338 @@ watch(selectedCategoryId, () => {
 
 <style scoped>
 .site-manager {
-  padding: 20px 0;
-}
-
-.manager-header {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-  padding-bottom: 20px;
-  border-bottom: 2px solid #e9ecef;
+  flex-direction: column;
+  gap: 28px;
 }
 
-.manager-header h2 {
-  color: #2c3e50;
-  margin: 0;
-  font-size: 24px;
+.manager-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 680px;
+}
+
+.manager-kicker {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  min-height: 30px;
+  padding: 0 12px;
+  border-radius: 999px;
+  background: rgba(var(--admin-accent-rgb), 0.1);
+  border: 1px solid rgba(var(--admin-accent-rgb), 0.14);
+  color: var(--admin-accent-strong);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.manager-copy p {
+  margin: 8px 0 0;
+  color: var(--admin-text-soft);
+  font-size: 14px;
+  line-height: 1.7;
 }
 
 .header-actions {
   display: flex;
   align-items: center;
-  gap: 15px;
-}
-
-.category-filter {
-  padding: 8px 12px;
-  border: 2px solid #e1e1e1;
-  border-radius: 4px;
-  font-size: 14px;
-  background: white;
-  cursor: pointer;
-}
-
-.add-btn, .save-btn {
-  padding: 10px 20px;
-  border: none;
-  border-radius: 6px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.add-btn {
-  background: #27ae60;
-  color: white;
-}
-
-.add-btn:hover {
-  background: #219a52;
-}
-
-.save-btn {
-  background: #3498db;
-  color: white;
-}
-
-.save-btn:hover:not(:disabled) {
-  background: #2980b9;
-}
-
-.save-btn:disabled {
-  background: #bdc3c7;
-  cursor: not-allowed;
+  gap: 12px;
+  flex-wrap: wrap;
 }
 
 .stats-bar {
   display: grid;
-  grid-template-columns: repeat(3, 1fr) 2fr;
-  gap: 20px;
-  margin-bottom: 30px;
-  align-items: center;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) minmax(280px, 1.3fr);
+  gap: 16px;
+  align-items: stretch;
+}
+
+.stat-item,
+.stat-info {
+  padding: 18px 20px;
+  border-radius: 24px;
+  border: 1px solid var(--admin-line);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.84), rgba(250, 245, 236, 0.92));
+  box-shadow: 0 16px 28px rgba(16, 38, 58, 0.05);
 }
 
 .stat-item {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  padding: 15px;
-  background: #f8f9fa;
-  border-radius: 8px;
-  border: 1px solid #e9ecef;
+  justify-content: center;
+  min-height: 112px;
 }
 
 .stat-number {
-  font-size: 24px;
-  font-weight: 600;
-  color: #3498db;
+  color: var(--admin-slate);
+  font-size: 30px;
+  font-weight: 800;
+  letter-spacing: -0.04em;
 }
 
 .stat-label {
+  margin-top: 8px;
+  color: var(--admin-text-soft);
   font-size: 12px;
-  color: #7f8c8d;
-  margin-top: 5px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
 }
 
 .stat-info {
   display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+  background:
+    radial-gradient(circle at top right, rgba(var(--admin-accent-rgb), 0.12), transparent 32%),
+    linear-gradient(180deg, rgba(24, 52, 73, 0.98), rgba(18, 38, 56, 0.98));
+  color: #f7f2e8;
+}
+
+.stat-info-kicker {
+  display: inline-flex;
   align-items: center;
-  padding: 12px 15px;
-  background: linear-gradient(135deg, #e8f5e8, #f0f8ff);
-  border-radius: 8px;
-  border-left: 4px solid #27ae60;
-  color: #2c3e50;
-  font-size: 13px;
-  font-weight: 500;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  width: fit-content;
+  min-height: 24px;
+  padding: 0 10px;
+  border-radius: 999px;
+  background: rgba(var(--admin-accent-rgb), 0.14);
+  color: #efd6ad;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.stat-info p {
+  margin: 0;
+  color: rgba(247, 242, 232, 0.84);
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.stat-info strong {
+  color: #fff;
+  font-weight: 700;
 }
 
 .sites-list {
-  margin-bottom: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
 }
 
 .draggable-list {
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 16px;
 }
 
-
-
-.pagination-notice {
-  text-align: center;
-  padding: 20px;
-  background: #e8f5e8;
-  border: 1px solid #4caf50;
-  border-radius: 8px;
-  color: #2e7d32;
-  font-size: 14px;
-  margin-top: 20px;
+.site-item {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 20px;
+  align-items: center;
+  padding: 22px 24px;
+  border-radius: 28px;
+  border: 1px solid var(--admin-line);
+  background:
+    radial-gradient(circle at top right, rgba(var(--admin-accent-rgb), 0.08), transparent 26%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.86), rgba(250, 245, 236, 0.94));
+  box-shadow: 0 20px 34px rgba(16, 38, 58, 0.06);
+  transition: transform 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
 }
 
-.drag-help {
-  text-align: center;
-  padding: 12px 20px;
-  background: #e3f2fd;
-  border: 1px solid #2196f3;
-  border-radius: 6px;
-  color: #1565c0;
-  font-size: 13px;
-  margin-top: 15px;
-  opacity: 0.9;
+.site-item:hover {
+  transform: translateY(-2px);
+  border-color: rgba(var(--admin-accent-rgb), 0.2);
+  box-shadow: 0 28px 42px rgba(16, 38, 58, 0.1);
 }
 
 .pagination-disabled .site-item {
-  opacity: 0.8;
-  cursor: default;
+  opacity: 0.94;
 }
 
 .pagination-disabled .site-item:hover {
   transform: none;
-  background: #f8f9fa;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-.site-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20px;
-  background: #f8f9fa;
-  border-radius: 8px;
-  border: 1px solid #e9ecef;
-  transition: all 0.3s ease;
-}
-
-.site-item:hover {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .draggable-item {
   cursor: move;
-  position: relative;
-}
-
-.draggable-item:hover {
-  background: #f1f3f4;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
 }
 
 .draggable-item.sortable-chosen {
-  background: #e3f2fd;
-  border-color: #2196f3;
-  transform: rotate(3deg);
-  box-shadow: 0 8px 20px rgba(33, 150, 243, 0.3);
+  border-color: rgba(var(--admin-accent-rgb), 0.28);
+  box-shadow: 0 24px 42px rgba(16, 38, 58, 0.14);
 }
 
 .draggable-item.sortable-ghost {
-  opacity: 0.5;
-  background: #e8f5e8;
-  border: 2px dashed #4caf50;
+  opacity: 0.45;
+  border-style: dashed;
 }
 
 .drag-handle {
   position: absolute;
-  left: 8px;
+  left: 10px;
   top: 50%;
   transform: translateY(-50%);
-  color: #95a5a6;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 44px;
+  border-radius: 12px;
+  color: rgba(16, 38, 58, 0.42);
   font-size: 16px;
-  font-weight: bold;
+  font-weight: 800;
   cursor: grab;
-  padding: 8px 4px;
-  border-radius: 4px;
-  transition: all 0.3s ease;
   user-select: none;
+  transition: color 0.2s ease, background 0.2s ease;
 }
 
 .drag-handle:hover {
-  color: #3498db;
-  background: rgba(52, 152, 219, 0.1);
+  color: var(--admin-accent-strong);
+  background: rgba(var(--admin-accent-rgb), 0.08);
 }
 
 .drag-handle:active {
   cursor: grabbing;
-  color: #2980b9;
 }
 
 .draggable-item .site-info {
-  margin-left: 30px;
+  margin-left: 24px;
 }
 
 .site-info {
   display: flex;
-  align-items: center;
-  gap: 15px;
-  flex: 1;
+  align-items: flex-start;
+  gap: 16px;
+  min-width: 0;
 }
 
 .site-icon {
-  width: 48px;
-  height: 48px;
-  background: white;
-  border-radius: 8px;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid #e9ecef;
+  width: 72px;
+  height: 72px;
   flex-shrink: 0;
+  border-radius: 22px;
+  border: 1px solid rgba(var(--admin-accent-rgb), 0.12);
+  background: linear-gradient(180deg, rgba(255, 249, 238, 0.98), rgba(245, 238, 225, 0.92));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.78);
 }
 
 .site-icon img {
-  width: 32px;
-  height: 32px;
+  width: 42px;
+  height: 42px;
   object-fit: contain;
 }
 
 .site-details {
-  flex: 1;
+  min-width: 0;
+}
+
+.site-topline {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
 }
 
 .site-details h3 {
-  margin: 0 0 5px 0;
-  color: #2c3e50;
-  font-size: 16px;
+  margin: 0;
+  color: var(--admin-text);
+  font-size: 24px;
+  line-height: 1.15;
 }
 
 .site-description {
-  margin: 0 0 5px 0;
-  color: #7f8c8d;
+  margin: 12px 0 8px;
+  color: var(--admin-text-soft);
   font-size: 14px;
+  line-height: 1.7;
 }
 
 .site-url {
-  color: #3498db;
-  text-decoration: none;
+  display: inline-flex;
+  max-width: 100%;
+  overflow: hidden;
+  color: var(--admin-slate);
   font-size: 13px;
-  display: block;
-  margin-bottom: 5px;
+  font-weight: 700;
+  text-decoration: none;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .site-url:hover {
-  text-decoration: underline;
+  color: var(--admin-accent-strong);
+}
+
+.site-category,
+.site-order-chip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 30px;
+  padding: 0 12px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 .site-category {
-  display: inline-block;
-  background: #3498db;
-  color: white;
-  padding: 2px 8px;
-  border-radius: 12px;
-  font-size: 11px;
-  font-weight: 500;
+  background: rgba(24, 52, 73, 0.08);
+  color: var(--admin-slate);
+}
+
+.site-order-chip {
+  background: rgba(var(--admin-accent-rgb), 0.1);
+  color: var(--admin-accent-strong);
 }
 
 .site-actions {
   display: flex;
-  gap: 10px;
-}
-
-.edit-btn, .delete-btn {
-  padding: 6px 12px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 12px;
-  transition: all 0.3s ease;
-}
-
-.edit-btn {
-  background: #f39c12;
-  color: white;
-}
-
-.edit-btn:hover {
-  background: #e67e22;
-}
-
-.delete-btn {
-  background: #e74c3c;
-  color: white;
-}
-
-.delete-btn:hover {
-  background: #c0392b;
-}
-
-
-
-/* 弹窗样式 */
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
   align-items: center;
-  justify-content: center;
-  z-index: 1000;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.pagination-notice,
+.drag-help {
+  padding: 16px 18px;
+  border-radius: 20px;
+  border: 1px solid var(--admin-line);
+  background: rgba(255, 255, 255, 0.72);
+  color: var(--admin-text-soft);
+  font-size: 13px;
+  line-height: 1.6;
+  text-align: center;
+}
+
+.pagination-notice {
+  background: rgba(var(--admin-accent-rgb), 0.08);
+  color: var(--admin-accent-strong);
+}
+
+.drag-help {
+  background: rgba(24, 52, 73, 0.06);
+  color: var(--admin-slate);
 }
 
 .modal-content {
-  background: white;
-  border-radius: 8px;
-  width: 90%;
-  max-width: 600px;
-  max-height: 90vh;
-  overflow-y: auto;
-}
-
-.modal-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20px;
-  border-bottom: 1px solid #e9ecef;
+  width: min(680px, calc(100% - 32px));
 }
 
 .modal-header h3 {
-  margin: 0;
-  color: #2c3e50;
   display: flex;
   align-items: center;
   flex-wrap: wrap;
@@ -1213,37 +1216,25 @@ watch(selectedCategoryId, () => {
 }
 
 .category-hint {
-  font-size: 14px;
-  color: #3498db;
-  background: #e8f4fd;
-  padding: 4px 8px;
-  border-radius: 12px;
-  font-weight: 400;
-}
-
-.close-btn {
-  background: none;
-  border: none;
-  font-size: 20px;
-  cursor: pointer;
-  color: #7f8c8d;
-  padding: 5px;
-  border-radius: 4px;
-  transition: background-color 0.3s ease;
-}
-
-.close-btn:hover {
-  background: #f8f9fa;
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  padding: 0 10px;
+  border-radius: 999px;
+  background: rgba(var(--admin-accent-rgb), 0.1);
+  color: var(--admin-accent-strong);
+  font-size: 12px;
+  font-weight: 700;
 }
 
 .site-form {
-  padding: 20px;
+  padding: 22px;
 }
 
 .form-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 15px;
+  gap: 16px;
 }
 
 .form-group {
@@ -1253,63 +1244,56 @@ watch(selectedCategoryId, () => {
 .form-group label {
   display: block;
   margin-bottom: 8px;
-  color: #555;
-  font-weight: 500;
-}
-
-.form-input, .form-textarea {
-  width: 100%;
-  padding: 10px;
-  border: 2px solid #e1e1e1;
-  border-radius: 4px;
-  font-size: 14px;
-  transition: border-color 0.3s ease;
-}
-
-.form-input:focus, .form-textarea:focus {
-  outline: none;
-  border-color: #3498db;
+  color: var(--admin-text);
+  font-weight: 700;
 }
 
 .form-textarea {
   resize: vertical;
+  min-height: 108px;
   font-family: inherit;
 }
 
 .icon-input-group {
-  display: flex;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
   gap: 10px;
 }
 
 .auto-icon-btn {
-  padding: 10px 15px;
-  background: #3498db;
-  color: white;
-  border: none;
-  border-radius: 4px;
+  min-height: 44px;
+  padding: 0 16px;
+  border: 1px solid rgba(var(--admin-accent-rgb), 0.2);
+  border-radius: 14px;
+  background: rgba(var(--admin-accent-rgb), 0.1);
+  color: var(--admin-accent-strong);
   cursor: pointer;
-  font-size: 14px;
+  font-size: 13px;
+  font-weight: 700;
   white-space: nowrap;
-  transition: background-color 0.3s ease;
+  transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
 }
 
 .auto-icon-btn:hover {
-  background: #2980b9;
+  transform: translateY(-1px);
+  border-color: rgba(var(--admin-accent-rgb), 0.28);
+  background: rgba(var(--admin-accent-rgb), 0.14);
 }
 
 .icon-preview {
-  margin-top: 10px;
-  padding: 10px;
-  background: #f8f9fa;
-  border-radius: 4px;
+  margin-top: 12px;
+  padding: 16px;
+  border-radius: 18px;
+  border: 1px solid var(--admin-line);
+  background: rgba(255, 255, 255, 0.8);
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .icon-preview img {
-  width: 32px;
-  height: 32px;
+  width: 40px;
+  height: 40px;
   object-fit: contain;
 }
 
@@ -1319,70 +1303,55 @@ watch(selectedCategoryId, () => {
   gap: 10px;
   margin-top: 30px;
   padding-top: 20px;
-  border-top: 1px solid #e9ecef;
+  border-top: 1px solid rgba(16, 38, 58, 0.08);
 }
 
-.cancel-btn, .submit-btn {
-  padding: 10px 20px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-weight: 500;
-  transition: background-color 0.3s ease;
-}
-
-.cancel-btn {
-  background: #95a5a6;
-  color: white;
-}
-
-.cancel-btn:hover {
-  background: #7f8c8d;
-}
-
-.submit-btn {
-  background: #27ae60;
-  color: white;
-}
-
-.submit-btn:hover {
-  background: #219a52;
-}
-
-/* 响应式设计 */
-@media (max-width: 768px) {
-  .manager-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 15px;
-  }
-
-  .header-actions {
-    flex-wrap: wrap;
-    width: 100%;
-  }
-
+@media (max-width: 1100px) {
   .stats-bar {
-    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .stat-info {
     grid-column: 1 / -1;
-    margin-top: 10px;
-    font-size: 12px;
-    padding: 10px;
   }
 
   .site-item {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 15px;
+    grid-template-columns: 1fr;
   }
 
   .site-actions {
-    align-self: flex-end;
-    flex-wrap: wrap;
-    gap: 8px;
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 768px) {
+  .manager-copy {
+    max-width: none;
+  }
+
+  .header-actions {
+    width: 100%;
+  }
+
+  .category-filter {
+    width: 100%;
+  }
+
+  .stats-bar {
+    grid-template-columns: 1fr;
+  }
+
+  .site-item {
+    padding: 20px;
+    border-radius: 24px;
+  }
+
+  .site-info {
+    flex-direction: column;
+  }
+
+  .site-details h3 {
+    font-size: 22px;
   }
 
   .form-row {
@@ -1390,40 +1359,16 @@ watch(selectedCategoryId, () => {
   }
 
   .icon-input-group {
-    flex-direction: column;
-  }
-
-  .modal-header h3 {
-    font-size: 18px;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 5px;
-  }
-
-  .category-hint {
-    font-size: 12px;
-    padding: 2px 6px;
+    grid-template-columns: 1fr;
   }
 
   .draggable-item .site-info {
-    margin-left: 20px;
+    margin-left: 18px;
   }
 
   .drag-handle {
-    left: 4px;
-    font-size: 14px;
-    padding: 6px 2px;
-  }
-
-  .pagination-notice {
-    padding: 15px;
-    font-size: 13px;
-  }
-
-  .drag-help {
-    padding: 10px 15px;
-    font-size: 12px;
-    margin-top: 10px;
+    left: 6px;
+    width: 24px;
   }
 }
 </style>

@@ -1,13 +1,38 @@
 <template>
   <div class="system-settings">
     <div class="settings-header">
-      <h2>⚙️ 系统设置</h2>
-      <p>管理导航站的系统配置和GitHub集成</p>
+      <div class="settings-copy">
+        <span class="settings-kicker">System</span>
+        <div>
+          <h2>系统设置</h2>
+          <p>维护 GitHub 集成状态、品牌资源与运行环境，让后台配置和线上部署保持一致。</p>
+        </div>
+      </div>
+      <div class="settings-summary">
+        <article class="summary-card">
+          <span class="summary-value">{{ connectionStatus?.connected ? 'ON' : 'OFF' }}</span>
+          <span class="summary-label">GitHub Sync</span>
+        </article>
+        <article class="summary-card">
+          <span class="summary-value summary-value-text">{{ currentTitle || '宝拓导航' }}</span>
+          <span class="summary-label">Site Title</span>
+        </article>
+        <article class="summary-card">
+          <span class="summary-value summary-value-text">{{ searchEngineOptions.find(opt => opt.value === currentSearchEngine)?.label || 'Bing' }}</span>
+          <span class="summary-label">Search Engine</span>
+        </article>
+      </div>
     </div>
 
     <!-- GitHub连接状态 -->
     <div class="settings-section">
-      <h3>🔗 GitHub 集成状态</h3>
+      <div class="section-heading">
+        <span class="section-kicker">Connection</span>
+        <div>
+          <h3>GitHub 集成状态</h3>
+          <p>检查仓库连接、当前权限和后台服务端配置是否生效。</p>
+        </div>
+      </div>
       <div class="github-status" :class="{ connected: connectionStatus?.connected }">
         <div class="status-info">
           <div class="status-indicator">
@@ -29,7 +54,7 @@
         </div>
         <div class="status-actions">
           <button @click="testConnection" :disabled="testing" class="test-btn">
-            {{ testing ? '测试中...' : '🔄 重新测试' }}
+            {{ testing ? '测试中...' : '重新测试连接' }}
           </button>
         </div>
       </div>
@@ -37,7 +62,13 @@
 
     <!-- 网站设置 -->
     <div class="settings-section">
-      <h3>🌐 网站设置</h3>
+      <div class="section-heading">
+        <span class="section-kicker">Brand</span>
+        <div>
+          <h3>网站设置</h3>
+          <p>统一维护站点标题、默认搜索引擎和品牌 Logo 资源。</p>
+        </div>
+      </div>
       <div class="website-settings">
         <!-- 网站标题设置 -->
         <div class="setting-group">
@@ -55,7 +86,7 @@
               :disabled="titleSaving || !websiteTitle.trim()"
               class="save-title-btn"
             >
-              {{ titleSaving ? '保存中...' : '💾 保存标题' }}
+              {{ titleSaving ? '保存中...' : '保存标题' }}
             </button>
           </div>
           <p class="setting-description">当前标题: {{ currentTitle || '未设置' }}</p>
@@ -79,7 +110,7 @@
               :disabled="searchEngineSaving || searchEngine === currentSearchEngine"
               class="save-search-engine-btn"
             >
-              {{ searchEngineSaving ? '保存中...' : '💾 保存设置' }}
+              {{ searchEngineSaving ? '保存中...' : '保存设置' }}
             </button>
           </div>
           <p class="setting-description">当前搜索引擎: {{ searchEngineOptions.find(opt => opt.value === currentSearchEngine)?.label || '未设置' }}</p>
@@ -103,8 +134,8 @@
                 class="logo-preview-img"
               >
               <div v-else class="logo-placeholder">
-                <span>🖼️</span>
-                <p>暂无Logo</p>
+                <span>Logo</span>
+                <p>暂无品牌图形</p>
               </div>
             </div>
             <div class="logo-upload-controls">
@@ -116,7 +147,7 @@
                 style="display: none"
               >
               <button @click="selectLogo" class="select-logo-btn">
-                📁 选择PNG文件
+                选择 PNG 文件
               </button>
               <button
                 @click="saveLogoToGitHub"
@@ -124,7 +155,7 @@
                 class="save-logo-btn"
                 v-if="selectedLogoFile"
               >
-                {{ logoSaving ? '上传中...' : '🚀 上传Logo' }}
+                {{ logoSaving ? '上传中...' : '上传 Logo' }}
               </button>
             </div>
           </div>
@@ -135,20 +166,26 @@
 
     <!-- 服务端环境变量配置 -->
     <div class="settings-section">
-      <h3>🌍 服务端环境变量</h3>
+      <div class="section-heading">
+        <span class="section-kicker">Runtime</span>
+        <div>
+          <h3>服务端环境变量</h3>
+          <p>确认管理员密钥、GitHub 仓库配置和分支设置是否已在服务端生效。</p>
+        </div>
+      </div>
       <div class="env-config">
         <div class="config-item">
           <label>管理员密钥 (ADMIN_PASSWORD):</label>
           <div class="config-value">
-            <span v-if="envConfig.adminPasswordConfigured" class="value-set">✅ 已配置</span>
-            <span v-else class="value-missing">❌ 未配置</span>
+            <span v-if="envConfig.adminPasswordConfigured" class="value-set">已配置</span>
+            <span v-else class="value-missing">未配置</span>
           </div>
         </div>
         <div class="config-item">
           <label>GitHub Token (GITHUB_TOKEN):</label>
           <div class="config-value">
-            <span v-if="envConfig.githubTokenConfigured" class="value-set">✅ 已配置</span>
-            <span v-else class="value-missing">❌ 未配置</span>
+            <span v-if="envConfig.githubTokenConfigured" class="value-set">已配置</span>
+            <span v-else class="value-missing">未配置</span>
           </div>
         </div>
         <div class="config-item">
@@ -174,7 +211,13 @@
 
     <!-- 配置说明 -->
     <div class="settings-section">
-      <h3>📖 配置说明</h3>
+      <div class="section-heading">
+        <span class="section-kicker">Guide</span>
+        <div>
+          <h3>配置说明</h3>
+          <p>按照以下顺序创建 Token、配置环境变量并完成部署安全检查。</p>
+        </div>
+      </div>
       <div class="config-guide">
         <div class="guide-step">
           <h4>1. 获取 GitHub Personal Access Token</h4>
@@ -183,20 +226,20 @@
             <li>点击 "Generate new token" → "Generate new token (fine-grained token)"</li>
             <li>设置 Token 名称，选择过期时间，仓库只选择 baotuo_nav，避免 token 泄露影响你其他工程</li>
             <li>
-              <strong>在 <span style="color:#3498db">Repository permissions (仓库权限)</span> 部分，勾选以下权限：</strong>
+              <strong>在 <span class="guide-emphasis">Repository permissions (仓库权限)</span> 部分，勾选以下权限：</strong>
               <ul>
                 <li>
                   <code>Contents</code> - <strong>Read and write</strong> ✅<br>
-                  <span style="color:#888;font-size:13px;">用于读取和修改 <code>src/mock/mock_data.js</code> 文件，这是管理系统的核心功能</span>
+                  <span class="guide-note">用于读取和修改 <code>src/mock/mock_data.js</code> 文件，这是管理系统的核心功能</span>
                 </li>
                 <li>
                   <code>Metadata</code> - <strong>Read</strong> ✅<br>
-                  <span style="color:#888;font-size:13px;">用于访问仓库基本信息，GitHub API 的基础权限</span>
+                  <span class="guide-note">用于访问仓库基本信息，GitHub API 的基础权限</span>
                 </li>
               </ul>
-              <div style="margin-top:8px;">
-                <strong>在 <span style="color:#f39c12">Account permissions (账户权限)</span> 部分：</strong><br>
-                <span style="color:#888;font-size:13px;">不需要勾选任何账户权限 ❌，我们只操作特定仓库，不需要账户级别的权限</span>
+              <div class="guide-subnote">
+                <strong>在 <span class="guide-emphasis">Account permissions (账户权限)</span> 部分：</strong><br>
+                <span class="guide-note">不需要勾选任何账户权限，我们只操作特定仓库，不需要账户级别的权限。</span>
               </div>
             </li>
             <li>点击 "Generate token" 并复制 Token</li>
@@ -206,11 +249,11 @@
         <div class="guide-step">
           <h4>2. 配置环境变量</h4>
           <p>
-            <strong>如果你在 <span style="color:#3498db">自己的服务器</span> 部署：</strong><br>
+            <strong>如果你在 <span class="guide-emphasis">自己的服务器</span> 部署：</strong><br>
             在项目根目录创建 <code>.env</code> 文件，添加以下配置：
           </p>
           <p>
-            <strong>如果你使用 <span style="color:#27ae60">Vercel</span> 或 <span style="color:#f39c12">Cloudflare Pages</span> 部署：</strong><br>
+            <strong>如果你使用 <span class="guide-emphasis">Vercel</span> 或 <span class="guide-emphasis">Cloudflare Pages</span> 部署：</strong><br>
             请在对应平台的「环境变量」设置界面，添加下方这些变量，无需在项目中创建 <code>.env</code> 文件。
           </p>
           <div class="code-block">
@@ -248,7 +291,13 @@ VITE_OPEN_LOCK_PASSWORD=your_public_lock_password</code></pre>
 
     <!-- 系统信息 -->
     <div class="settings-section">
-      <h3>ℹ️ 系统信息</h3>
+      <div class="section-heading">
+        <span class="section-kicker">Info</span>
+        <div>
+          <h3>系统信息</h3>
+          <p>当前后台运行环境、浏览器信息和构建时间概览。</p>
+        </div>
+      </div>
       <div class="system-info">
         <div class="info-grid">
           <div class="info-item">
@@ -625,416 +674,263 @@ onMounted(async () => {
 
 <style scoped>
 .system-settings {
-  padding: 20px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
 }
 
-.settings-header {
-  margin-bottom: 40px;
+.system-settings > .settings-header {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(320px, 0.95fr);
+  gap: 20px;
+  align-items: stretch;
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
 }
 
-.settings-header h2 {
-  color: #2c3e50;
-  margin: 0 0 10px 0;
-  font-size: 24px;
+.settings-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
-.settings-header p {
-  color: #7f8c8d;
-  margin: 0;
-  font-size: 16px;
+.settings-kicker,
+.section-kicker {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  min-height: 30px;
+  padding: 0 12px;
+  border-radius: 999px;
+  background: rgba(var(--admin-accent-rgb), 0.1);
+  border: 1px solid rgba(var(--admin-accent-rgb), 0.14);
+  color: var(--admin-accent-strong);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.settings-copy p {
+  margin: 8px 0 0;
+  color: var(--admin-text-soft);
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.settings-summary {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.summary-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 118px;
+  padding: 18px;
+  border-radius: 24px;
+  border: 1px solid var(--admin-line);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.84), rgba(250, 245, 236, 0.92));
+  box-shadow: 0 16px 28px rgba(16, 38, 58, 0.05);
+}
+
+.summary-value {
+  color: var(--admin-slate);
+  font-size: 30px;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+}
+
+.summary-value-text {
+  font-size: 20px;
+  line-height: 1.15;
+}
+
+.summary-label {
+  margin-top: 8px;
+  color: var(--admin-text-soft);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
 }
 
 .settings-section {
-  margin-bottom: 40px;
-  padding: 25px;
-  background: #f8f9fa;
-  border-radius: 8px;
-  border: 1px solid #e9ecef;
+  padding: 24px;
+  border-radius: 30px;
+  border: 1px solid var(--admin-line);
+  background:
+    radial-gradient(circle at top right, rgba(var(--admin-accent-rgb), 0.08), transparent 24%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.82), rgba(250, 245, 236, 0.94));
+  box-shadow: 0 22px 38px rgba(16, 38, 58, 0.06);
 }
 
-.settings-section h3 {
-  color: #2c3e50;
-  margin: 0 0 20px 0;
-  font-size: 18px;
-  font-weight: 600;
-}
-
-/* GitHub状态样式 */
-.github-status {
+.section-heading {
   display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  padding: 20px;
-  background: white;
-  border-radius: 6px;
-  border: 1px solid #e9ecef;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.section-heading p {
+  margin: 8px 0 0;
+  color: var(--admin-text-soft);
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.github-status {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 18px;
+  align-items: center;
+  padding: 22px;
+  border-radius: 24px;
+  border: 1px solid var(--admin-line);
+  background: rgba(255, 255, 255, 0.78);
 }
 
 .github-status.connected {
-  border-color: #27ae60;
-  background: #f8fff9;
+  border-color: rgba(47, 143, 98, 0.18);
+  background:
+    radial-gradient(circle at top right, rgba(47, 143, 98, 0.12), transparent 30%),
+    rgba(255, 255, 255, 0.82);
+}
+
+.status-info {
+  min-width: 0;
 }
 
 .status-indicator {
   display: flex;
   align-items: center;
   gap: 10px;
-  margin-bottom: 15px;
+  margin-bottom: 14px;
 }
 
 .status-dot {
   width: 12px;
   height: 12px;
-  border-radius: 50%;
-  background: #e74c3c;
-  display: inline-block;
+  border-radius: 999px;
+  background: #c15f4b;
+  box-shadow: 0 0 0 6px rgba(193, 95, 75, 0.12);
 }
 
 .status-dot.active {
-  background: #27ae60;
+  background: #2f8f62;
+  box-shadow: 0 0 0 6px rgba(47, 143, 98, 0.12);
 }
 
 .status-text {
-  font-weight: 500;
-  color: #2c3e50;
+  color: var(--admin-text);
+  font-size: 16px;
+  font-weight: 700;
 }
 
-.repo-info p {
-  margin: 5px 0;
-  color: #7f8c8d;
+.repo-info p,
+.error-info p {
+  margin: 8px 0 0;
+  color: var(--admin-text-soft);
   font-size: 14px;
-}
-
-.permission-badge {
-  padding: 2px 8px;
-  border-radius: 12px;
-  font-size: 12px;
-  font-weight: 500;
-}
-
-.permission-badge.success {
-  background: #d4edda;
-  color: #155724;
-}
-
-.permission-badge.warning {
-  background: #fff3cd;
-  color: #856404;
+  line-height: 1.7;
 }
 
 .error-info p {
-  color: #e74c3c;
-  font-size: 14px;
-  margin: 5px 0;
+  color: #b35643;
 }
 
-.test-btn {
-  padding: 8px 16px;
-  background: #3498db;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 14px;
-  transition: background-color 0.3s ease;
-}
-
-.test-btn:hover:not(:disabled) {
-  background: #2980b9;
-}
-
-.test-btn:disabled {
-  background: #bdc3c7;
-  cursor: not-allowed;
-}
-
-/* 环境变量配置样式 */
-.env-config {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-}
-
-.config-item {
-  display: flex;
-  justify-content: space-between;
+.permission-badge {
+  display: inline-flex;
   align-items: center;
-  padding: 15px;
-  background: white;
-  border-radius: 6px;
-  border: 1px solid #e9ecef;
+  min-height: 28px;
+  padding: 0 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
-.config-item label {
-  font-weight: 500;
-  color: #2c3e50;
-  flex: 1;
+.permission-badge.success {
+  background: rgba(47, 143, 98, 0.12);
+  color: #2f8f62;
 }
 
-.config-value {
+.permission-badge.warning {
+  background: rgba(var(--admin-accent-rgb), 0.14);
+  color: var(--admin-accent-strong);
+}
+
+.status-actions {
   display: flex;
   align-items: center;
-  gap: 10px;
 }
 
-.value-set {
-  color: #27ae60;
-  font-weight: 500;
-}
-
-.value-missing {
-  color: #e74c3c;
-  font-weight: 500;
-}
-
-.value-display {
-  color: #7f8c8d;
-  font-family: monospace;
-  background: #f8f9fa;
-  padding: 4px 8px;
-  border-radius: 4px;
-  font-size: 13px;
-}
-
-/* 配置说明样式 */
-.config-guide {
-  background: white;
-  border-radius: 6px;
-  border: 1px solid #e9ecef;
-  overflow: hidden;
-}
-
-.guide-step {
-  padding: 20px;
-  border-bottom: 1px solid #e9ecef;
-}
-
-.guide-step:last-child {
-  border-bottom: none;
-}
-
-.guide-step h4 {
-  color: #2c3e50;
-  margin: 0 0 15px 0;
-  font-size: 16px;
-}
-
-.guide-step ol, .guide-step ul {
-  margin: 10px 0 0 20px;
-  color: #555;
-}
-
-.guide-step ol li, .guide-step ul li {
-  margin-bottom: 8px;
-  line-height: 1.5;
-}
-
-.guide-step p {
-  color: #555;
-  line-height: 1.6;
-  margin: 10px 0;
-}
-
-.guide-step a {
-  color: #3498db;
-  text-decoration: none;
-}
-
-.guide-step a:hover {
-  text-decoration: underline;
-}
-
-.guide-step code {
-  background: #f8f9fa;
-  padding: 2px 6px;
-  border-radius: 3px;
-  font-family: 'Consolas', 'Monaco', monospace;
-  color: #e74c3c;
-  font-size: 13px;
-}
-
-.code-block {
-  background: #f8f9fa;
-  border: 1px solid #e9ecef;
-  border-radius: 6px;
-  padding: 15px;
-  margin: 15px 0;
-  overflow-x: auto;
-}
-
-.code-block pre {
-  margin: 0;
-  font-family: 'Consolas', 'Monaco', monospace;
-  font-size: 13px;
-  line-height: 1.4;
-  color: #2c3e50;
-}
-
-/* 系统信息样式 */
-.system-info {
-  background: white;
-  border-radius: 6px;
-  border: 1px solid #e9ecef;
-  padding: 20px;
-}
-
-.info-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 15px;
-}
-
-.info-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px;
-  background: #f8f9fa;
-  border-radius: 4px;
-}
-
-.info-label {
-  font-weight: 500;
-  color: #2c3e50;
-}
-
-.info-value {
-  color: #7f8c8d;
-  font-family: monospace;
-  font-size: 13px;
-  max-width: 200px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-/* 网站设置样式 */
 .website-settings {
-  display: flex;
-  flex-direction: column;
-  gap: 30px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.setting-group,
+.config-item,
+.guide-step,
+.info-item {
+  border: 1px solid var(--admin-line);
+  background: rgba(255, 255, 255, 0.78);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.64);
 }
 
 .setting-group {
   display: flex;
   flex-direction: column;
   gap: 10px;
+  min-height: 100%;
+  padding: 20px;
+  border-radius: 24px;
 }
 
-.setting-group label {
-  font-weight: 600;
-  color: #2c3e50;
-  font-size: 16px;
+.setting-group label,
+.config-item label,
+.info-label {
+  color: var(--admin-text);
+  font-weight: 700;
 }
 
 .setting-description {
-  color: #7f8c8d;
+  margin: 0;
+  color: var(--admin-text-soft);
   font-size: 13px;
-  margin: 5px 0 0 0;
+  line-height: 1.6;
 }
 
-/* 标题设置样式 */
-.title-input-group {
-  display: flex;
-  gap: 10px;
-  align-items: center;
-}
-
-.title-input {
-  flex: 1;
-  padding: 10px 15px;
-  border: 2px solid #e9ecef;
-  border-radius: 6px;
-  font-size: 14px;
-  transition: border-color 0.3s ease;
-}
-
-.title-input:focus {
-  outline: none;
-  border-color: #3498db;
-}
-
-.save-title-btn {
-  padding: 10px 20px;
-  background: #3498db;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  white-space: nowrap;
-}
-
-.save-title-btn:hover:not(:disabled) {
-  background: #2980b9;
-}
-
-.save-title-btn:disabled {
-  background: #bdc3c7;
-  cursor: not-allowed;
-}
-
-/* 搜索引擎设置样式 */
+.title-input-group,
 .search-engine-input-group {
-  display: flex;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
   gap: 10px;
   align-items: center;
 }
 
-.search-engine-select {
-  flex: 1;
-  padding: 10px 15px;
-  border: 2px solid #e9ecef;
-  border-radius: 6px;
-  font-size: 14px;
-  transition: border-color 0.3s ease;
-  background: white;
-  cursor: pointer;
-}
-
-.search-engine-select:focus {
-  outline: none;
-  border-color: #3498db;
-}
-
-.save-search-engine-btn {
-  padding: 10px 20px;
-  background: #3498db;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  white-space: nowrap;
-}
-
-.save-search-engine-btn:hover:not(:disabled) {
-  background: #2980b9;
-}
-
-.save-search-engine-btn:disabled {
-  background: #bdc3c7;
-  cursor: not-allowed;
-}
-
-/* Logo设置样式 */
 .logo-upload-area {
-  display: flex;
-  gap: 20px;
-  align-items: flex-start;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 18px;
+  align-items: start;
 }
 
 .logo-preview {
-  width: 128px;
-  height: 128px;
-  border: 2px dashed #e9ecef;
-  border-radius: 8px;
+  width: 132px;
+  height: 132px;
+  border-radius: 24px;
+  border: 1px dashed rgba(var(--admin-accent-rgb), 0.22);
+  background: rgba(255, 252, 247, 0.94);
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #f8f9fa;
   overflow: hidden;
 }
 
@@ -1048,17 +944,19 @@ onMounted(async () => {
   display: flex;
   flex-direction: column;
   align-items: center;
-  color: #7f8c8d;
+  color: var(--admin-text-soft);
   text-align: center;
 }
 
 .logo-placeholder span {
-  font-size: 32px;
-  margin-bottom: 8px;
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
 }
 
 .logo-placeholder p {
-  margin: 0;
+  margin: 8px 0 0;
   font-size: 13px;
 }
 
@@ -1066,86 +964,216 @@ onMounted(async () => {
   display: flex;
   flex-direction: column;
   gap: 10px;
+  align-items: flex-start;
 }
 
-.select-logo-btn, .save-logo-btn {
-  padding: 10px 20px;
-  border: none;
-  border-radius: 6px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.3s ease;
+.env-config {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.config-item {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  justify-content: space-between;
+  min-height: 136px;
+  padding: 18px;
+  border-radius: 22px;
+}
+
+.config-value {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.value-set,
+.value-missing {
+  display: inline-flex;
+  align-items: center;
+  min-height: 30px;
+  padding: 0 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.value-set {
+  background: rgba(47, 143, 98, 0.12);
+  color: #2f8f62;
+}
+
+.value-missing {
+  background: rgba(188, 86, 67, 0.12);
+  color: #b35643;
+}
+
+.value-display {
+  display: inline-flex;
+  align-items: center;
+  min-height: 34px;
+  padding: 0 12px;
+  border-radius: 12px;
+  background: rgba(16, 38, 58, 0.06);
+  color: var(--admin-slate);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 13px;
+}
+
+.config-guide {
+  display: grid;
+  gap: 14px;
+}
+
+.guide-step {
+  padding: 20px;
+  border-radius: 24px;
+}
+
+.guide-step h4 {
+  margin: 0 0 14px;
+  color: var(--admin-text);
+  font-size: 17px;
+}
+
+.guide-step p,
+.guide-step li {
+  color: var(--admin-text-soft);
+  line-height: 1.7;
+}
+
+.guide-step ol,
+.guide-step ul {
+  margin: 12px 0 0 20px;
+}
+
+.guide-step a {
+  color: var(--admin-accent-strong);
+  text-decoration: none;
+}
+
+.guide-step a:hover {
+  text-decoration: underline;
+}
+
+.guide-emphasis {
+  color: var(--admin-accent-strong);
+}
+
+.guide-note {
+  color: var(--admin-text-soft);
+  font-size: 13px;
+}
+
+.guide-subnote {
+  margin-top: 8px;
+}
+
+.guide-step code {
+  padding: 2px 6px;
+  border-radius: 8px;
+  background: rgba(16, 38, 58, 0.06);
+  color: var(--admin-slate);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 13px;
+}
+
+.code-block {
+  margin: 16px 0;
+  padding: 16px;
+  border-radius: 20px;
+  border: 1px solid rgba(16, 38, 58, 0.08);
+  background: #183449;
+  color: #f7f2e8;
+  overflow-x: auto;
+}
+
+.code-block pre {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.6;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+.system-info {
+  padding: 0;
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.info-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 14px;
+  min-height: 88px;
+  padding: 18px;
+  border-radius: 22px;
+}
+
+.info-value {
+  max-width: 60%;
+  overflow: hidden;
+  color: var(--admin-text-soft);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 13px;
+  text-align: right;
+  text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-.select-logo-btn {
-  background: #95a5a6;
-  color: white;
-}
-
-.select-logo-btn:hover {
-  background: #7f8c8d;
-}
-
-.save-logo-btn {
-  background: #27ae60;
-  color: white;
-}
-
-.save-logo-btn:hover:not(:disabled) {
-  background: #219a52;
-}
-
-.save-logo-btn:disabled {
-  background: #bdc3c7;
-  cursor: not-allowed;
-}
-
-/* 响应式设计 */
-@media (max-width: 768px) {
-  .github-status {
-    flex-direction: column;
-    gap: 15px;
-  }
-
-  .config-item {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
-  }
-
+@media (max-width: 1100px) {
+  .settings-header,
+  .website-settings,
+  .env-config,
   .info-grid {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .settings-summary {
+    grid-template-columns: 1fr;
+  }
+
+  .github-status {
+    grid-template-columns: 1fr;
+  }
+
+  .title-input-group,
+  .search-engine-input-group,
+  .logo-upload-area {
+    grid-template-columns: 1fr;
+  }
+
+  .logo-upload-controls {
+    align-items: stretch;
+  }
+
+  .config-item,
+  .info-item {
+    min-height: auto;
   }
 
   .info-item {
     flex-direction: column;
     align-items: flex-start;
-    gap: 5px;
   }
 
   .info-value {
     max-width: none;
-    word-break: break-all;
-  }
-
-  .title-input-group {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .search-engine-input-group {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .logo-upload-area {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .logo-upload-controls {
-    align-items: center;
+    text-align: left;
+    white-space: normal;
+    word-break: break-word;
   }
 }
 </style>

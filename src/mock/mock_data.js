@@ -716,18 +716,25 @@ export const mockData = {
       "order": 17,
       "sites": [
         {
-          "id": "site-1765589488075",
-          "name": "二级域名",
-          "url": "https://my.dnshe.com/index.php?m=domain_hub",
-          "description": "免费申请域名",
-          "icon": "https://img.icons8.com/?size=100&id=VhllgfFJA9AH&format=png&color=000000"
-        },
-        {
           "id": "site-1774326534150",
           "name": "gname域名",
           "url": "https://www.gname.vip/",
           "description": "免费域名申请eu.cc",
           "icon": "\thttps://file-sg.gname.net/f/imgs/logo.png?t=20260324014000?t=20260324014000"
+        },
+        {
+          "id": "site-1774406407754",
+          "name": "DigitalPlat Domain",
+          "url": "https://dash.domain.digitalplat.org/",
+          "description": "免费的域名申请",
+          "icon": ""
+        },
+        {
+          "id": "site-1765589488075",
+          "name": "二级域名",
+          "url": "https://my.dnshe.com/index.php?m=domain_hub",
+          "description": "免费申请域名",
+          "icon": "https://img.icons8.com/?size=100&id=VhllgfFJA9AH&format=png&color=000000"
         }
       ]
     }

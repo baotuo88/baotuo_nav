@@ -633,6 +633,13 @@ export const mockData = {
           "url": "https://routerpark.com/",
           "description": "免费apikey",
           "icon": "https://routerpark.com/_next/image?url=%2Ficon.svg&w=64&q=75"
+        },
+        {
+          "id": "site-1774866714538",
+          "name": "Token Atlas",
+          "url": "https://gptfreetoken.pony.indevs.in/",
+          "description": "领取gpt账号",
+          "icon": ""
         }
       ]
     },

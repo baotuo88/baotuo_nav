@@ -640,6 +640,13 @@ export const mockData = {
           "url": "https://gptfreetoken.pony.indevs.in/",
           "description": "领取gpt账号",
           "icon": ""
+        },
+        {
+          "id": "site-1775839679016",
+          "name": "公益聚合",
+          "url": "https://ldoh.105117.xyz/",
+          "description": "公益聚合站点",
+          "icon": "https://ldoh.105117.xyz/logo.svg"
         }
       ]
     },

@@ -558,6 +558,21 @@ export const mockData = {
       ]
     },
     {
+      "id": "category-1775999680781",
+      "icon": "📁",
+      "name": "邮箱服务",
+      "order": 10,
+      "sites": [
+        {
+          "id": "site-1775999795988",
+          "name": "resend",
+          "url": "https://resend.com/",
+          "description": "邮箱发送服务",
+          "icon": ""
+        }
+      ]
+    },
+    {
       "id": "office",
       "name": "办公协作",
       "icon": "💼",

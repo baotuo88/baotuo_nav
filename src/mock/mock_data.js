@@ -702,6 +702,21 @@ export const mockData = {
       ]
     },
     {
+      "id": "category-1777697306907",
+      "icon": "📱",
+      "name": "接码平台",
+      "order": 13,
+      "sites": [
+        {
+          "id": "site-1777697418463",
+          "name": "hero-sms",
+          "url": "https://hero-sms.com/cn",
+          "description": "接码",
+          "icon": ""
+        }
+      ]
+    },
+    {
       "id": "category-1757174637580",
       "icon": "💻",
       "name": "在线数据库",

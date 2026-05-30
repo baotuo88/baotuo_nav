@@ -779,6 +779,13 @@ export const mockData = {
           "url": "https://my.dnshe.com/index.php?m=domain_hub",
           "description": "免费申请域名",
           "icon": "https://img.icons8.com/?size=100&id=VhllgfFJA9AH&format=png&color=000000"
+        },
+        {
+          "id": "site-1780156319548",
+          "name": "DnsNeko",
+          "url": "https://www.dnsneko.com/",
+          "description": "1447144",
+          "icon": "https://www.dnsneko.com/picture/DnsNekoWB.svg"
         }
       ]
     }

@@ -662,6 +662,13 @@ export const mockData = {
           "url": "https://ldoh.105117.xyz/",
           "description": "公益聚合站点",
           "icon": "https://ldoh.105117.xyz/logo.svg"
+        },
+        {
+          "id": "site-1780708745606",
+          "name": "Codex公益站",
+          "url": "https://new.sharedchat.cc/",
+          "description": "可以领取codex使用",
+          "icon": "https://new.sharedchat.cc/favicon.ico"
         }
       ]
     },
